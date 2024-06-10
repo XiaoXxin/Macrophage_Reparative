@@ -14,6 +14,7 @@ library(ggplotify)
 library(ComplexHeatmap)
 library(circlize)
 library(paletteer)
+library(patchwork)
 library(tidyverse)
 
 # global options
@@ -67,9 +68,9 @@ dif$symbol <- rownames(dif)
 
 save(counts, exprSet, dds, phenoData,IDs,dif,res, file = "./RData/result_wound.RData")
 
-#### Fig. XXX ####
+#### Fig. S5d ####
 rm(list = ls())
-load("./RData/result_DESeq2.RData")
+load("./RData/result_wound.RData")
 
 geneList <- dif$log2FoldChange;head(geneList)
 StoE <- bitr(dif$symbol, fromType = "SYMBOL", toType = "ENTREZID", OrgDb = "org.Mm.eg.db")
@@ -77,20 +78,6 @@ names(geneList) <- as.character(dif$symbol);head(geneList)
 geneList <- geneList[names(geneList) %in% StoE$SYMBOL]
 names(geneList) <- as.character(StoE$ENTREZID[match(names(geneList), StoE$SYMBOL)]);head(geneList)
 geneList <- sort(geneList,decreasing = T);head(geneList)
-
-buildGseaList<- function(species) {
-  require(clusterProfiler)
-  require(tidyverse)
-  R.utils::setOption("clusterProfiler.download.method",'auto')
-  keggList <- download_KEGG(species = species, keggType = "KEGG", keyType = "kegg")
-  keggRef <- keggList$KEGGPATHID2NAME
-  keggPath <- keggList$KEGGPATHID2EXTID
-  keggPath$from <- keggRef$to[match(keggPath$from, keggRef$from)]
-  keggPath <- split(keggPath$to, keggPath$from)
-  keggPath
-}
-keggList <- buildGseaList(species = "mmu")
-names(keggList) <- gsub(" - Mus .*", "", names(keggList))
 
 goList <- toTable(org.Mm.egGO2ALLEGS)
 goList <- goList[goList$Ontology == "BP",]
@@ -104,16 +91,17 @@ res.fgsea.go <- fgsea(pathways = goList,
                    minSize = 5,
                    maxSize = 500)
 res.fgsea.go <- res.fgsea.go[res.fgsea.go$pval <=0.05,]
+
 res.fgsea.go$pathway <- gsub("interleukin-", "IL", res.fgsea.go$pathway)
 res.fgsea.go$pathway <- gsub("T-helper ", "Th", res.fgsea.go$pathway)
 names(goList) <- gsub("interleukin-", "IL", names(goList))
 names(goList) <- gsub("T-helper ", "Th", names(goList))
 
-pathways <- c("negative regulation of innate immune response", "positive regulation of type 2 immune response",
+pathways <- c("positive regulation of IL1 production",
+              "chronic inflammatory response",
+              "myeloid cell activation involved in immune response",
               "inflammatory response to wounding",
-              "negative regulation of IL10 production", 
-              "acute inflammatory response",
-              "cellular response to IL1"
+              "activation of immune response"
               )
 
 p.gsea <- plotGseaTable(goList[pathways], geneList, res.fgsea.go, colwidths = c(3, 1.5, 0.6, 0.8, 0), gseaParam = 0.5, render = F)
@@ -123,7 +111,7 @@ pdf(file = "./fgsea.pdf", width = 8, height = 3)
 p.gsea
 dev.off()
 
-#### Fig. XXX ####
+#### Fig. S5c ####
 rm(list = ls())
 load("./RData/result_wound.RData")
 
@@ -147,6 +135,9 @@ pdf(file = "./pca.pdf", width = 5, height = 5)
 p.pca
 dev.off()
 
+#### Fig. 3e ####
+rm(list = ls())
+load("./RData/result_wound.RData")
 
 buildGseaList <- function(species, selected) {
   require(clusterProfiler)
@@ -169,86 +160,74 @@ buildGseaList <- function(species, selected) {
 geneList <- buildGseaList(species = "mmu", 
                           selected = c("Fatty acid biosynthesis - Mus musculus (house mouse)",
                                        "Fatty acid degradation - Mus musculus (house mouse)",
-                                       "Oxidative phosphorylation - Mus musculus (house mouse)",
                                        "Glycolysis / Gluconeogenesis - Mus musculus (house mouse)",
-                                       "Pentose phosphate pathway - Mus musculus (house mouse)"))
+                                       "Citrate cycle (TCA cycle) - Mus musculus (house mouse)",
+                                       "Pentose phosphate pathway - Mus musculus (house mouse)",
+                                       "Oxidative phosphorylation - Mus musculus (house mouse)"))
 
-IDss <- bitr(rownames(exprSet_batch), fromType = "SYMBOL", toType = "ENTREZID", OrgDb = "org.Mm.eg.db")
-entrezMatrix <- exprSet_batch[IDss$SYMBOL,]
+names(geneList) <- c("TCA", "FAS", "FAO", "Glycolysis", "OXPHOS", "PPP")
+
+
+IDss <- bitr(rownames(exprSet), fromType = "SYMBOL", toType = "ENTREZID", OrgDb = "org.Mm.eg.db")
+entrezMatrix <- exprSet[IDss$SYMBOL,]
 rownames(entrezMatrix) <- IDss$ENTREZID
 
 # ssGSEA
-metaScore <- gsva(entrezMatrix, 
-                  geneList,
-                  method = "ssgsea",
-                  kcdf = "Gaussian",
-                  abs.ranking = T)  %>% t() %>% scale() %>% as.data.frame()
+metaScore_wound <- gsva(entrezMatrix, 
+                        geneList,
+                        method = "ssgsea",
+                        kcdf = "Gaussian",
+                        abs.ranking = T)  %>% t() %>% scale() %>% as.data.frame()
 
-colnames(metaScore) <- gsub(" ", "_", colnames(metaScore))
-colnames(metaScore) <- gsub("-", "_", colnames(metaScore))
+save(metaScore_wound, file = "./RData/result_wound_metabolism.RData")
+
+rm(list = ls())
+load("./RData/result_wound_metabolism.RData")
+load("../RNAseq BMDM/RData/result_BMDM_metabolism.RData")
+metaScore_wound$group <- c(rep("TA", 6), rep("WT", 6))
+metaScore_wound$type <- "SKIN"
+metaScore_wound$sample <- rownames(metaScore_wound)
+
+metaScore_BMDM$group <- c(rep("TA", 3), rep("WT", 3))
+metaScore_BMDM$type <- "BMDM"
+metaScore_BMDM$sample <- rownames(metaScore_BMDM)
 
 
-metaScore$Group <- phenoData$group
-metaScore <- gather(metaScore, metabolism, score, -Group)
-metaScore$metabolism <- gsub("___Mus_musculus.*", "", metaScore$metabolism)
+p1 <- ggplot(metaScore_BMDM, aes(x=sample, y=type, fill= FAS)) + 
+  geom_tile(colour = "white", linewidth = 2)+
+  scale_fill_gradientn(colours = c("#F8F5F5FF", "#FFD8DAFF","#F9846DFF","#E54244FF", "#B8163AFF", "#AE123AFF"), 
+                       limits= c(-1.6,1.6), 
+                       name=c("FAS score"))+
+  ggtitle("BMDM")+
+  theme_bw()+
+  theme(axis.title = element_blank(),
+        axis.text.x = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(),
+        panel.grid = element_blank(),
+        plot.title = element_text(hjust=0.5))
 
-metaScore$metabolism <- gsub("Fatty_acid_biosynthesis", "FAS", metaScore$metabolism)
-metaScore$metabolism <- gsub("Fatty_acid_degradation", "FAO", metaScore$metabolism)
-metaScore$metabolism <- gsub("Glycolysis_/_Gluconeogenesis", "Glycolysis", metaScore$metabolism)
-metaScore$metabolism <- gsub("Oxidative_phosphorylation", "OXPHOS", metaScore$metabolism)
-metaScore$metabolism <- gsub("Pentose_phosphate_pathway", "PPP", metaScore$metabolism)
 
-metaScore$metabolism <- factor(metaScore$metabolism, levels = c("Glycolysis", "OXPHOS", "PPP", "FAO", "FAS"))
+p2 <- ggplot(metaScore_wound, aes(x=sample, y=type, fill= FAS)) + 
+  geom_tile(colour = "white", linewidth = 2)+
+  scale_fill_gradientn(colours = c("#F8F5F5FF", "#FFD8DAFF","#F9846DFF","#E54244FF", "#B8163AFF", "#AE123AFF"), 
+                       limits= c(-1.6,1.6), 
+                       name=c("FAS score"))+
+  ggtitle("SKIN")+
+  theme_bw()+
+  theme(axis.title = element_blank(),
+        axis.text.x = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks.y = element_blank(),
+        panel.grid = element_blank(),
+        plot.title = element_text(hjust=0.5))
 
-# Get the name and the y position of each label
-data <- metaScore %>% group_by(metabolism, Group) %>% summarize(mean = round(mean(score),3),
-                                                                sd = sd(score),
-                                                                se= (sd(score) / sqrt(length(score))))
 
-data$hline <- -0.05
-data$hline2 <- 1.2
 
-label_data <- data.frame(name = levels(data$metabolism),
-                         y = -0.2)
 
-res <- list()
-for (i in c("Glycolysis", "OXPHOS", "PPP", "FAO", "FAS")) {
-  res[[i]] <- compare_means(
-  score~Group,
-  metaScore[metaScore$metabolism == i,],
-  method = "t.test",
-  paired = FALSE,
-  symnum.args = list(cutpoints = c(0, 0.001, 0.01, 0.05, Inf), symbols = c("***", "**", "*", "ns")),
-  p.adjust.method = "none")
-}
 
-label_data$sig <- lapply(res, function(x) x$p) %>% as.numeric() %>% round(5) %>% paste0("p=", .)
 
-p.meta<- ggplot(data, aes(x = metabolism, y = mean, fill = Group))+
-  geom_col(position="dodge")+
-  scale_fill_manual(values = c("#A0A0A4", "#E64B35"), breaks=c("WT", "TA"), labels=c("+/+", "A/A"))+
-  geom_errorbar(aes(y=hline, ymax=hline, ymin=hline))+
-  geom_errorbar(aes(y=hline2, ymax=hline2, ymin=hline2), width = 0.5)+
-  geom_errorbar(aes(y=mean, ymax=mean, ymin=mean-se), position = position_dodge(0.9), width = 0.5)+
-  geom_linerange(aes(x=metabolism, ymin=mean+0.16, ymax=hline2), position = position_dodge(1))+
-  xlab(NULL)+
-  ylab(NULL)+
-  geom_text(data = label_data, aes(x = name, y = y, label = name),hjust=c(0.5,0.5,0.4,0.5,0.45), angle = c(-36,-108,0,108,36), colour = "black", alpha=0.8, size=4.5, fontface="bold", inherit.aes = FALSE)+
-  geom_text(data = label_data, aes(x = name, y = 1.28, label = sig), angle = c(-36,-108,0,108,36), colour = "black", alpha=0.8, size=5, fontface="bold", inherit.aes = FALSE)+
-  geom_text(data = data, aes(x = metabolism, y = mean+0.08, label = mean), colour = "black", angle = c(-18,-54,-90,-126, -162, -198, 126, 90, 54, 18), position = position_dodge(1),alpha=0.8, size = 5)+
-  ylim(-0.7,1.3)+
-  theme_minimal() +
-  theme(
-    legend.text=element_text(size=12),
-    axis.text = element_blank(),
-    axis.title = element_blank(),
-    panel.grid = element_blank()
-  ) +
-  coord_polar()
-
-pdf(file = "./plot/meta.pdf", width = 9, height = 7)
-p.meta
+pdf(file = "./FAS.pdf", width = 5, height = 3.5)
+p1+plot_spacer()+p2+plot_spacer()+plot_layout(ncol = 1, guides = "collect")
 dev.off()
-
-
 
