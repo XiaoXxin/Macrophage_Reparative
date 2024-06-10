@@ -232,7 +232,7 @@ pdf(file = "./metaOther.pdf", width = 12, height = 4)
 p
 dev.off()
 
-##### Fig. 1F  #####
+##### Fig. 1f  #####
 rm(list = ls())
 
 # load data
@@ -377,7 +377,7 @@ p1+p2+p3+plot_layout(nrow = 1, widths = c(3,3,1), guides = "collect")
 dev.off()
 
 
-##### Fig. S9D  #####
+##### Fig. S10d  #####
 rm(list = ls())
 
 autoCycle <- function(GSE, tissue, label, groups){
