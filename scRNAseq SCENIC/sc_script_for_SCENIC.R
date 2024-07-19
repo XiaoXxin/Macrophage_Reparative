@@ -20,7 +20,7 @@ dir.create("./RData")
 dir.create("./RData/cis")
 
 # load data (SKIN)
-# download cis data ("mm9-500bp-upstream-7species.mc9nr.feather", "mm9-tss-centered-10kb-7species.mc9nr.feather") from https://resources.aertslab.org
+# download cis data ("mm9-500bp-upstream-7species.mc9nr.feather", "mm9-tss-centered-10kb-7species.mc9nr.feather") from https://resources.aertslab.org/cistarget/databases/old/mus_musculus/mm9/refseq_r45/mc9nr/gene_based/
 # copy "result_mac_skin.rds" file from ~/scRNAseq Macrophage Atlas/GSE186986/RData/
 rm(list = ls())
 
