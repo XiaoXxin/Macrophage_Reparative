@@ -1,21 +1,21 @@
 # library
-library(DESeq2)
-library(clusterProfiler)
-library(limma)
-library(fgsea)
-library(ggpubr)
-library(FactoMineR)
-library(factoextra)
-library(sva)
-library(org.Mm.eg.db)
-library(GSVA)
-library(GO.db)
-library(ggplotify)
-library(ComplexHeatmap)
-library(circlize)
-library(paletteer)
-library(patchwork)
-library(tidyverse)
+library(DESeq2) # v1.40.1
+library(clusterProfiler) # v4.8.3
+library(limma) # v3.58.1
+library(fgsea) # v1.22.0
+library(ggpubr) # v0.6.0
+library(FactoMineR) # v2.11
+library(factoextra) # v1.0.7
+library(sva) # v3.50.0
+library(org.Mm.eg.db) # v3.18.0
+library(GSVA) # v1.44.2
+library(GO.db) # v3.18.0
+library(ggplotify) # v0.1.2
+library(ComplexHeatmap) # v2.18.0
+library(circlize) # v0.4.16
+library(paletteer) # v1.6.0
+library(patchwork) # v1.2.0
+library(tidyverse) # v2.0.0
 
 # global options
 rm(list = ls())

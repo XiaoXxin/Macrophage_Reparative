@@ -1,13 +1,16 @@
 # library
-library(ChIPseeker)
-library(org.Mm.eg.db)
-library(TxDb.Mmusculus.UCSC.mm10.knownGene)
-library(clusterProfiler)
-library(Gviz)
-library(biomaRt)
-library(rtracklayer)
-library(GenomicFeatures)
-library(tidyverse)
+library(ChIPseeker) # v1.36.0
+library(org.Mm.eg.db) # v3.18.0
+library(TxDb.Mmusculus.UCSC.mm10.knownGene) # v3.10.0
+library(clusterProfiler) # v4.8.3
+library(Gviz) # v4.16.1
+library(biomaRt) # v2.58.2
+library(rtracklayer) # v1.62.0
+library(GenomicFeatures) # v1.54.4
+library(tidyverse) # v2.0.0
+
+# the input files can be obtained from GSE252900, and transform from bigwig to bed files
+# the input files can also be obtained from the corresponding author upon request
 
 #### Fig. 5a ####
 rm(list = ls())

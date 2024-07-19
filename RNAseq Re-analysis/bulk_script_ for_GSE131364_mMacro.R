@@ -1,13 +1,13 @@
 
 # library
-library(limma)
-library(clusterProfiler)
-library(org.Mm.eg.db)
-library(ggpubr)
-library(GSVA)
-library(TxDb.Mmusculus.UCSC.mm10.knownGene)
-library(pheatmap)
-library(tidyverse)
+library(limma) # v3.58.1
+library(clusterProfiler) # v4.8.3
+library(org.Mm.eg.db) # v3.18.0
+library(ggpubr) # v0.6.0
+library(GSVA) # v1.44.2
+library(TxDb.Mmusculus.UCSC.mm10.knownGene) # v3.10.0
+library(pheatmap) # v1.0.12
+library(tidyverse) # v2.0.0
 
 # global options
 rm(list = ls())

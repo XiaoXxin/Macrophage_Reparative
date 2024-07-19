@@ -1,12 +1,12 @@
 
 # library
-library(limma)
-library(DMwR)
-library(clusterProfiler)
-library(org.Mm.eg.db)
-library(SummarizedExperiment)
-library(scuttle)
-library(tidyverse)
+library(limma) # v3.58.1
+library(DMwR) # v0.0.2
+library(clusterProfiler) # v4.8.3
+library(org.Mm.eg.db) # v3.18.0
+library(SummarizedExperiment) # v1.32.0
+library(scuttle) # v1.12.0
+library(tidyverse) # v2.0.0
 
 # global options
 rm(list = ls())

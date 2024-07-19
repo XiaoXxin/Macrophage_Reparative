@@ -1,19 +1,18 @@
 
 # library
-library(ggpubr)
-library(patchwork)
-library(ggsci)
-library(ggsc)
-library(gg.gap)
-library(scattermore)
-library(ggplotify)
-library(ggthemes)
-library(Seurat)
-library(monocle)
-library(clusterProfiler)
-library(org.Mm.eg.db)
-library(patchwork)
-library(tidyverse)
+library(ggpubr) # v0.6.0
+library(patchwork) # v1.2.0
+library(ggsci) # v3.1.0
+library(ggsc) # v1.0.2
+library(gg.gap) # v1.3
+library(scattermore) # v1.2
+library(ggplotify) # v0.1.2
+library(ggthemes) # v5.1.0
+library(Seurat) # v4.3.0
+library(monocle) # v2.30.1
+library(clusterProfiler) # v4.8.3
+library(org.Mm.eg.db) # v3.18.0
+library(tidyverse) # v2.0.0
 
 
 ##### Fig. 1b #####

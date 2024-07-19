@@ -1,19 +1,18 @@
 
 # library
-library(limma)
-library(FactoMineR)
-library(factoextra)
-library(clusterProfiler)
-library(org.Hs.eg.db)
-library(GSVA)
-library(sva)
-library(ggplot2)
-library(ggpubr)
-library(paletteer)
-library(scattermore)
-library(ggrepel)
-library(pheatmap)
-library(tidyverse)
+library(limma) # v3.58.1
+library(FactoMineR) # v2.11
+library(factoextra) # v1.0.7
+library(clusterProfiler) # v4.8.3
+library(org.Hs.eg.db) # v3.18.0
+library(GSVA) # v1.44.2
+library(sva) # v3.50.0
+library(ggpubr) # v0.6.0
+library(paletteer) # v1.6.0
+library(scattermore) # v1.2
+library(ggrepel) # v0.9.5
+library(pheatmap) # v1.0.12
+library(tidyverse) # v2.0.0
 
 # global options
 rm(list = ls())

@@ -1,13 +1,15 @@
 
 # library
-library(limma)
-library(clusterProfiler)
-library(org.Mm.eg.db)
-library(mixOmics)
-library(ggpubr)
-library(scattermore)
-library(ggrepel)
-library(tidyverse)
+library(limma) # v3.58.1
+library(clusterProfiler) # v4.10.1
+library(org.Mm.eg.db) # v3.18.0
+library(mixOmics) # v6.26.0
+library(ggpubr) # v0.6.0
+library(scattermore) # v1.2
+library(ggrepel) # v0.9.5
+library(tidyverse) # v2.0.0
+
+# the input files "M2c_M0.all.txt" can be obtained from Supplementary Table 3 for the source article or from the corresponding author upon request
 
 #### Fig. 2a ####
 rm(list = ls())

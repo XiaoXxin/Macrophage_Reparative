@@ -1,17 +1,17 @@
 
 # library
-library(Seurat)
-library(SCENIC)
-library(doParallel)
-library(SCopeLoomR)
-library(AUCell)
-library(GSVA)
-library(GSEABase)
-library(ggsc)
-library(ComplexHeatmap)
-library(circlize)
-library(ggpubr)
-library(tidyverse)
+library(Seurat) # v4.3.0
+library(SCENIC) # v1.3.1
+library(doParallel) # v1.0.17
+library(SCopeLoomR) # v0.13.0
+library(AUCell) # v1.24.0
+library(GSVA) # v1.44.2
+library(GSEABase) # v1.64.0
+library(ggsc) # v1.0.2
+library(ComplexHeatmap) # v2.18.0
+library(circlize) # v0.4.16
+library(ggpubr) # v0.6.0
+library(tidyverse) # v2.0.0
 
 
 

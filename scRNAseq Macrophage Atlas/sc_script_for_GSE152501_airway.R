@@ -3,16 +3,17 @@ rm(list = ls())
 options(stringsAsFactors = FALSE)
 
 # library
-library(Seurat)
-library(SingleR)
-library(scuttle)
-library(SummarizedExperiment)
-library(clusterProfiler)
-library(limma)
-library(org.Mm.eg.db)
-library(ALRA)
-library(GSVA)
-library(tidyverse)
+library(Seurat) # v4.3.0
+library(scuttle) # v1.12.0
+library(SummarizedExperiment) # v1.32.0
+library(clusterProfiler) # v4.8.3
+library(limma) # v3.58.1
+library(org.Mm.eg.db) # v3.18.0
+library(ALRA) # 0.0.0.9000
+library(GSVA) # v1.44.2
+library(tidyverse) # v2.0.0
+
+
 
 # load data
 d1 <- Read10X_h5("./rawData/GSM4616677_AY_day_1.filtered_feature_bc_matrix.h5")

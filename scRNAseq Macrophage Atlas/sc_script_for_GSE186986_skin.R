@@ -2,12 +2,12 @@
 rm(list = ls())
 
 # library
-library(Seurat)
-library(SingleR)
-library(ALRA)
-library(GSVA)
-library(monocle)
-library(tidyverse)
+library(Seurat) # v4.3.0
+library(SingleR) # v2.2.0
+library(ALRA) # 0.0.0.9000
+library(GSVA) # v1.44.2
+library(monocle) # v2.30.1
+library(tidyverse) # v2.0.0
 
 # load raw data
 w1 <- Read10X(data.dir = "./rawData/w1")

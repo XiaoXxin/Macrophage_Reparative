@@ -2,14 +2,13 @@
 rm(list = ls())
 
 # library
-library(Seurat)
-library(SingleR)
-library(clusterProfiler)
-library(limma)
-library(org.Mm.eg.db)
-library(ALRA)
-library(GSVA)
-library(tidyverse)
+library(Seurat) # v4.3.0
+library(clusterProfiler) # v4.8.3
+library(limma) # v3.58.1
+library(org.Mm.eg.db) # v3.18.0
+library(ALRA) # 0.0.0.9000
+library(GSVA) # v1.44.2
+library(tidyverse) # v2.0.0
 
 # load data
 d3 <- Read10X(data.dir = "./rawData/d3")
