@@ -1,9 +1,11 @@
 # library
-library(Gviz)
-library(biomaRt)
-library(rtracklayer)
-library(GenomicFeatures)
-library(tidyverse)
+library(Gviz) # v1.46.1
+library(biomaRt) # v2.58.2
+library(rtracklayer) # 1.62.0
+library(GenomicFeatures) # v1.54.4
+library(tidyverse) # v2.0.0
+
+# the input files can be obtained from GSE269832 or from the corresponding author upon request
 
 #### Fig. 6a ####
 
